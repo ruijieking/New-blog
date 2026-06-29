@@ -6,7 +6,7 @@ npm create astro@latest -- --template blog
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-Features:
+Features:fdfdf
 
 - ✅ Minimal styling (make it your own!)
 - ✅ 100/100 Lighthouse performance
@@ -38,6 +38,7 @@ Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page
 There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
 The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+yuaamshemnb
 
 Any static assets, like images, can be placed in the `public/` directory.
 

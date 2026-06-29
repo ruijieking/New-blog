@@ -4,7 +4,10 @@ When starting the dev server, use background mode:
 
 ```
 astro dev --background
-```
+```原神牛逼```
+
+
+
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
