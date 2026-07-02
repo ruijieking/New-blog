@@ -7,9 +7,7 @@ yuansshen: 'jfjkdjfkdjkj'
 wokao: "jkfjdkfjdkdkfjsdlkfjdsklfjsyausnsdsssvsbsbs"
 
 ---
+<h1 class= "text-blue-900">ceshi</h1>
 
 
-
-	<h1 class="text-3xl font-bold text-blue-600">Tailwind 测试</h1>
-			<h1 class="text-3xl font-bold text-blue-600">Tailwind 测试</h1>
-			<h1 class="text-3xl font-bold text-blue-600">Tailwind 测试</h1>
+	
