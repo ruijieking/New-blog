@@ -20,8 +20,6 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
@@ -149,6 +147,48 @@ hr {
 
 
 }
+/* ⬇️ 全局主题变量 ⬇️ */
+body {
+	--card-bg: rgba(255, 255, 255, 0.2);
+	--card-border: rgba(255, 255, 255, 0.3);
+	--btn-bg: #fff;
+	--btn-text: #7c3aed;
+	--header-bg: rgba(255, 255, 255, 0.55);
+	--header-text: #111;
+	transition: background-color 0.3s, color 0.3s;
+}
+body.dark-mode {
+	--card-bg: rgba(0, 0, 0, 0.4);
+	--card-border: rgba(255, 255, 255, 0.12);
+	--btn-bg: #333;
+	--btn-text: #a78bfa;
+	--header-bg: rgba(15, 15, 20, 0.75);
+	--header-text: #e0e0e0;
+	background-color: #0f0f14;
+}
+body.dark-mode header {
+	background: var(--header-bg) !important;
+}
+body.dark-mode header nav a,
+body.dark-mode header h2 a {
+	color: var(--header-text) !important;
+}
+
+/* 卡片组件 */
+.theme-card {
+	background: var(--card-bg);
+	border: 1px solid var(--card-border);
+	color: #fff;
+}
+.theme-desc {
+	color: #fff;
+	opacity: 0.9;
+}
+.theme-btn {
+	background: var(--btn-bg);
+	color: var(--btn-text);
+}
+
 /* ⬇️ 极客弹幕/跑马灯动画引擎 ⬇️ */
 @keyframes marquee {
   0% { transform: translateX(0); }

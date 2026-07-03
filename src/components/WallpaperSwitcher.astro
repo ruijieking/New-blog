@@ -1,0 +1,194 @@
+---
+import yunBg from '../assets/yun.jpg';
+import juBg from '../assets/ju.jpg';
+import keyBg from '../assets/key.jpg';
+import p0Bg from '../assets/146656214_p0.jpg';
+import masterBg from '../assets/129886078_p0_master1200.jpg';
+---
+
+<button id="wallpaper-btn" title="切换壁纸">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <circle cx="8.5" cy="8.5" r="1.5"/>
+    <polyline points="21 15 16 10 5 21"/>
+  </svg>
+</button>
+
+<div id="wallpaper-popup" class="wallpaper-popup hidden" data-wallpapers={JSON.stringify([
+  { name: 'Yun', src: yunBg.src },
+  { name: 'Ju', src: juBg.src },
+  { name: 'Key', src: keyBg.src },
+  { name: 'P0', src: p0Bg.src },
+  { name: 'Master', src: masterBg.src },
+])} data-default={yunBg.src}>
+  <h3>选择壁纸</h3>
+  <div id="wallpaper-grid" class="wallpaper-grid"></div>
+</div>
+
+<style>
+  #wallpaper-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  #wallpaper-btn:hover {
+    transform: scale(1.1);
+    background: rgba(0,0,0,0.5);
+  }
+  .wallpaper-popup {
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    z-index: 9998;
+    background: rgba(20,20,20,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    width: 260px;
+  }
+  .wallpaper-popup h3 {
+    margin: 0 0 14px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .wallpaper-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+    aspect-ratio: 16 / 10;
+  }
+  .wallpaper-item:hover {
+    transform: scale(1.05);
+    border-color: rgba(255,255,255,0.6);
+  }
+  .wallpaper-item.active {
+    border-color: #60a5fa;
+    box-shadow: 0 0 12px rgba(96,165,250,0.4);
+  }
+  .wallpaper-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .wallpaper-item .label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var popupEl = document.getElementById('wallpaper-popup');
+    if (!popupEl) return;
+
+    var wallpapers = JSON.parse(popupEl.getAttribute('data-wallpapers') || '[]');
+    var defaultWallpaper = popupEl.getAttribute('data-default') || '';
+    var STORAGE_KEY = 'blog-wallpaper';
+
+    function getStoredWallpaper() {
+      try {
+        var stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && wallpapers.find(function(w) { return w.src === stored; })) return stored;
+      } catch(e) {}
+      return defaultWallpaper;
+    }
+
+    function applyWallpaper(src) {
+      document.body.style.backgroundImage = 'url(' + src + ')';
+      localStorage.setItem(STORAGE_KEY, src);
+      updateActiveState(src);
+    }
+
+    function updateActiveState(activeSrc) {
+      document.querySelectorAll('.wallpaper-item').forEach(function(el) {
+        var src = el.getAttribute('data-src');
+        el.classList.toggle('active', src === activeSrc);
+      });
+    }
+
+    function buildGrid() {
+      var grid = document.getElementById('wallpaper-grid');
+      if (!grid) return;
+      var currentSrc = getStoredWallpaper();
+      wallpapers.forEach(function(w) {
+        var item = document.createElement('div');
+        item.className = 'wallpaper-item' + (w.src === currentSrc ? ' active' : '');
+        item.setAttribute('data-src', w.src);
+        item.innerHTML = '<img src="' + w.src + '" alt="' + w.name + '" loading="lazy"><div class="label">' + w.name + '</div>';
+        item.addEventListener('click', function() {
+          applyWallpaper(w.src);
+          closePopup();
+        });
+        grid.appendChild(item);
+      });
+    }
+
+    function togglePopup() {
+      if (popupEl) popupEl.classList.toggle('hidden');
+    }
+
+    function closePopup() {
+      if (popupEl) popupEl.classList.add('hidden');
+    }
+
+    applyWallpaper(getStoredWallpaper());
+    buildGrid();
+
+    var btn = document.getElementById('wallpaper-btn');
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        togglePopup();
+      });
+    }
+
+    document.addEventListener('click', function(e) {
+      if (popupEl && !popupEl.classList.contains('hidden')) {
+        var target = e.target;
+        var clickedInside = popupEl.contains(target);
+        var clickedBtn = btn && (target === btn || (btn && btn.contains(target)));
+        if (!clickedInside && !clickedBtn) {
+          closePopup();
+        }
+      }
+    });
+  });
+</script>
