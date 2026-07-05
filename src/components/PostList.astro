@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<main>
+	<h1 class="page-title">博客文章</h1>
+	<ul class="post-list">
+		{posts.map((post) => (
+			<li class="post-item">
+				<a href={`/blog/${post.id}/`}>
+					<h2 class="post-title">{post.data.title}</h2>
+					<p class="post-meta">
+						<FormattedDate date={post.data.pubDate} />
+					</p>
+				</a>
+			</li>
+		))}
+	</ul>
+</main>
+
+<style>
+	main {
+		width: 800px;
+		max-width: calc(100% - 2em);
+		margin: auto;
+		padding: 2em 1em;
+	}
+	.page-title {
+		font-size: 2em;
+		font-weight: 700;
+		margin-bottom: 1.5em;
+		text-align: center;
+	}
+	.post-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.post-item {
+		border-bottom: 1px solid rgb(var(--gray-light));
+		padding: 1.2em 0;
+		transition: background 0.15s;
+	}
+	.post-item:first-child {
+		padding-top: 0;
+	}
+	.post-item a {
+		display: block;
+		text-decoration: none;
+	}
+	.post-title {
+		margin: 0 0 0.3em 0;
+		font-size: 1.25em;
+		font-weight: 600;
+		color: rgb(var(--black));
+		line-height: 1.4;
+		transition: color 0.15s;
+	}
+	html.dark-mode .post-title {
+		color: #ffffff;
+	}
+	.post-item a:hover .post-title {
+		color: var(--accent);
+	}
+	html.dark-mode .post-item a:hover .post-title {
+		color: #93c5fd;
+	}
+	.post-meta {
+		margin: 0;
+		font-size: 0.85em;
+		color: rgb(var(--gray));
+	}
+	html.dark-mode .post-meta {
+		color: #ccc;
+	}
+	@media (max-width: 720px) {
+		main { padding: 1.5em 1em; }
+		.post-title { font-size: 1.1em; }
+	}
+</style>

@@ -1,0 +1,14 @@
+---
+// ============================================================
+// BlogPost — 博客文章内容组件（不再包含 html/head/body）
+// 由 [...slug].astro 包裹在 BaseLayout 中使用
+// ============================================================
+import BlogContent from './BlogContent.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = CollectionEntry<'blog'>['data'];
+---
+
+<BlogContent {...Astro.props}>
+  <slot />
+</BlogContent>

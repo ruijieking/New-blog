@@ -1,0 +1,31 @@
+---
+// ============================================================
+// BaseLayout — 全局布局组件
+// 统一管理：基础 HTML 结构、BaseHead、Header、Wallpaper
+// 所有页面继承此布局即可自动获得主题切换 + 动态壁纸
+// ============================================================
+
+import '../styles/global.css';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const title = Astro.props.title || SITE_TITLE;
+const description = Astro.props.description || SITE_DESCRIPTION;
+---
+
+<!doctype html>
+<html lang="zh">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <slot />
+  </body>
+</html>

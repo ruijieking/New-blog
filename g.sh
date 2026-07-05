@@ -4,5 +4,5 @@
 # 自动上传git的基础脚本
 
 git add . && \
-git commit -m "v0.10版本=编写ai更换成cline，这个agent代写无敌，更错的能力极强，更新了磨砂卡片和夜间转变" && \
+git commit -m "v0.11这个版本去除了不必要的声明和依赖做了轻量优化" && \
 git push origin main
